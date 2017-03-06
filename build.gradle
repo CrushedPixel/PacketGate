@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        maven {
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'org.spongepowered.plugin' version '0.8.1'
+    id 'net.minecrell.vanillagradle.server' version '2.2-5'
+    id 'maven'
+}
+
+group = 'eu.crushedpixel.sponge'
+version = '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:5.1.0'
+    compile 'org.projectlombok:lombok:1.16.4'
+}
+
+minecraft {
+    version = '1.10.2'
+    mappings = 'stable_29'
+    makeObfSourceJar = false
+}
+
+jar {
+    manifest.attributes('FMLAT': 'packetgate_at.cfg')
+}
+
+install {
+    dependsOn ':reobfJar'
+}
