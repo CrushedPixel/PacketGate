@@ -21,7 +21,7 @@ public interface PacketListener {
     }
 
     public enum ListenerPriority {
-        FIRST, EARLY, DEFAULT, LATE, LATEST
+        FIRST, EARLY, DEFAULT, LATE, LAST
     }
 
 }
