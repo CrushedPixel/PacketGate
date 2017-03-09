@@ -73,4 +73,10 @@ public class PacketGate extends ListenerOwner {
         }
     }
 
+    @Override
+    void register(PacketListenerData packetListenerData) {
+        super.register(packetListenerData);
+        connections.forEach(packetConnection -> packetConnection.register(packetListenerData));
+    }
+
 }
