@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.ListenerPriority;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
+import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -43,17 +44,25 @@ public class PacketGate extends ListenerOwner {
     public void registerListener(PacketListener packetListener, ListenerPriority priority,
                                  PacketConnection connection,
                                  Class... packetClasses) {
-        Preconditions.checkArgument(packetClasses.length > 0,
-                "Listener has to be registered for at least one Packet class");
-
         List<Class<? extends Packet>> classes = new ArrayList<>();
 
-        // check if packet classes are valid
-        for (Class clazz : packetClasses) {
-            Preconditions.checkArgument(Packet.class.isAssignableFrom(clazz),
-                    "Packet classes have to be subclasses of net.minecraft.network.Packet");
+        // if no classes are specified, apply the listener to all Minecraft packet classes
+        if (packetClasses.length == 0) {
+            for (EnumConnectionState state : EnumConnectionState.values()) {
+                state.directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
+                    integerClassBiMap.forEach((id, clazz) -> {
+                        classes.add(clazz);
+                    });
+                });
+            }
+        } else {
+            // check if packet classes are valid
+            for (Class clazz : packetClasses) {
+                Preconditions.checkArgument(Packet.class.isAssignableFrom(clazz),
+                        "Packet classes have to be subclasses of net.minecraft.network.Packet");
 
-            classes.add(clazz);
+                classes.add(clazz);
+            }
         }
 
         PacketListenerData packetListenerData = new PacketListenerData(packetListener, priority, classes);
