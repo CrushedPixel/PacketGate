@@ -13,10 +13,11 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
-@Plugin(id = PluginPacketGate.ID)
+@Plugin(id = PluginPacketGate.ID, version = PluginPacketGate.VERSION)
 public class PluginPacketGate {
 
     static final String ID = "packetgate";
+    static final String VERSION = "0.1";
 
     @Inject
     private Logger logger;
