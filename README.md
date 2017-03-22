@@ -12,17 +12,15 @@ As the `PacketGate` library is in no public maven repository yet, this is the be
 `PacketGate` as a dependency as of now.
 
 ## Installation
-To use `PacketGate` in one of your plugins, use ForgeGradle and add the local maven repo to the `dependencies` tag 
-in your `build.gradle` (outside of the buildscript) and add `PacketGate` as a compile-time dependency.
-
+To use `PacketGate` in one of your plugins, you need to use ForgeGradle and add `PacketGate` as a compile-time dependency.
+We suggest using [jitpack.io](https://jitpack.io) to depend on `PacketGate` like so:
 ```gradle
 repositories {
-    mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    // [...]
-    compile 'org.spongepowered:spongeapi:5.1.0'
+    compile 'com.github.CrushedPixel:PacketGate:0.1'
 }
 ```
 
