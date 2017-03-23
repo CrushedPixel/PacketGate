@@ -4,25 +4,24 @@ import eu.crushedpixel.sponge.packetgate.api.event.PacketEvent;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
 import io.netty.channel.Channel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import net.minecraft.network.Packet;
 import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public class PacketConnection extends ListenerOwner {
 
     private final Logger logger;
 
-    @Getter
     private final Channel channel;
 
-    @Getter @Setter
     private UUID playerUUID;
+
+    public PacketConnection(Logger logger, Channel channel) {
+        this.logger = logger;
+        this.channel = channel;
+    }
 
     public void sendPacket(Packet packet) {
         channel.write(packet);
@@ -43,4 +42,15 @@ public class PacketConnection extends ListenerOwner {
         }
     }
 
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public UUID getPlayerUUID() {
+        return playerUUID;
+    }
+
+    public void setPlayerUUID(UUID playerUUID) {
+        this.playerUUID = playerUUID;
+    }
 }

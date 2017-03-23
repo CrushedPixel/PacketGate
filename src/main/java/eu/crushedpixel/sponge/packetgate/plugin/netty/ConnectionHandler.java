@@ -6,10 +6,8 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
 
-@RequiredArgsConstructor
 @ChannelHandler.Sharable
 class ConnectionHandler extends ChannelDuplexHandler {
 
@@ -17,6 +15,11 @@ class ConnectionHandler extends ChannelDuplexHandler {
     private final PacketConnection connection;
 
     private boolean injected = false;
+
+    public ConnectionHandler(PacketGate packetGate, PacketConnection connection) {
+        this.packetGate = packetGate;
+        this.connection = connection;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

@@ -1,7 +1,5 @@
 package eu.crushedpixel.sponge.packetgate.api.event;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.network.Packet;
 
 public class PacketEvent {
@@ -11,13 +9,29 @@ public class PacketEvent {
         this.outgoing = outgoing;
     }
 
-    @Getter @Setter
     private Packet packet;
 
-    @Getter @Setter
     private boolean cancelled = false;
 
-    @Getter
     private final boolean outgoing;
 
+    public Packet getPacket() {
+        return packet;
+    }
+
+    public void setPacket(Packet packet) {
+        this.packet = packet;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public boolean isOutgoing() {
+        return outgoing;
+    }
 }

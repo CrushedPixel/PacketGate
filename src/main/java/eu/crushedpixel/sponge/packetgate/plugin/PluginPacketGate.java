@@ -17,7 +17,7 @@ import org.spongepowered.api.plugin.Plugin;
 public class PluginPacketGate {
 
     static final String ID = "packetgate";
-    static final String VERSION = "0.1";
+    static final String VERSION = "0.1.1";
 
     @Inject
     private Logger logger;

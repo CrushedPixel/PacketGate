@@ -18,14 +18,13 @@ plugins {
 }
 
 group = 'eu.crushedpixel.sponge'
-version = '0.1'
+version = '0.1.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
     compile 'org.spongepowered:spongeapi:5.1.0'
-    compile 'org.projectlombok:lombok:1.16.4'
 }
 
 minecraft {

@@ -2,7 +2,6 @@ package eu.crushedpixel.sponge.packetgate.api.listener;
 
 import eu.crushedpixel.sponge.packetgate.api.event.PacketEvent;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
-import lombok.Data;
 
 public interface PacketListener {
 
@@ -10,10 +9,22 @@ public interface PacketListener {
 
     void onPacketWrite(PacketEvent packetEvent, PacketConnection connection);
 
-    @Data
     public class PacketListenerData {
         private final PacketListener packetListener;
         private final ListenerPriority priority;
+
+        public PacketListenerData(PacketListener packetListener, ListenerPriority priority) {
+            this.packetListener = packetListener;
+            this.priority = priority;
+        }
+
+        public PacketListener getPacketListener() {
+            return packetListener;
+        }
+
+        public ListenerPriority getPriority() {
+            return priority;
+        }
     }
 
     public enum ListenerPriority {

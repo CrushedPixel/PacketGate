@@ -5,14 +5,17 @@ import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 
-@RequiredArgsConstructor
 public class CustomChannelInitializer extends ChannelInboundHandlerAdapter {
 
     private final Logger logger;
     private final PacketGate packetGate;
+
+    public CustomChannelInitializer(Logger logger, PacketGate packetGate) {
+        this.logger = logger;
+        this.packetGate = packetGate;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
