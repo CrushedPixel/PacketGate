@@ -3,9 +3,6 @@ package eu.crushedpixel.sponge.packetgate.api.listener;
 import eu.crushedpixel.sponge.packetgate.api.event.PacketEvent;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import lombok.Data;
-import net.minecraft.network.Packet;
-
-import java.util.List;
 
 public interface PacketListener {
 
@@ -17,7 +14,6 @@ public interface PacketListener {
     public class PacketListenerData {
         private final PacketListener packetListener;
         private final ListenerPriority priority;
-        private final List<Class<? extends Packet>> classes;
     }
 
     public enum ListenerPriority {

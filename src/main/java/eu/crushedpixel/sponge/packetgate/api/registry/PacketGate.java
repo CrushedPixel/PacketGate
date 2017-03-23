@@ -20,7 +20,9 @@ public class PacketGate extends ListenerOwner {
 
     public void registerConnection(PacketConnection connection) {
         // register all global packet listeners to the connection
-        this.packetListeners.values().forEach(list -> list.forEach(connection::register));
+        this.packetListeners.forEach((clazz, list) -> {
+            list.forEach(data -> connection.register(data, clazz));
+        });
 
         connections.add(connection);
     }
@@ -44,7 +46,7 @@ public class PacketGate extends ListenerOwner {
     public void registerListener(PacketListener packetListener, ListenerPriority priority,
                                  PacketConnection connection,
                                  Class... packetClasses) {
-        List<Class<? extends Packet>> classes = new ArrayList<>();
+        List<Class> classes = new ArrayList<>();
 
         // if no classes are specified, apply the listener to all Minecraft packet classes
         if (packetClasses.length == 0) {
@@ -65,12 +67,14 @@ public class PacketGate extends ListenerOwner {
             }
         }
 
-        PacketListenerData packetListenerData = new PacketListenerData(packetListener, priority, classes);
+        PacketListenerData packetListenerData = new PacketListenerData(packetListener, priority);
+
+        Class[] array = classes.toArray(new Class[classes.size()]);
 
         if (connection != null) {
-            connection.register(packetListenerData);
+            connection.register(packetListenerData, array);
         } else {
-            this.register(packetListenerData);
+            this.register(packetListenerData, array);
         }
     }
 
@@ -83,9 +87,9 @@ public class PacketGate extends ListenerOwner {
     }
 
     @Override
-    void register(PacketListenerData packetListenerData) {
-        super.register(packetListenerData);
-        connections.forEach(packetConnection -> packetConnection.register(packetListenerData));
+    void register(PacketListenerData packetListenerData, Class... classes) {
+        super.register(packetListenerData, classes);
+        connections.forEach(packetConnection -> packetConnection.register(packetListenerData, classes));
     }
 
 }
