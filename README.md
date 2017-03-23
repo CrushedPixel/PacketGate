@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.CrushedPixel:PacketGate:0.1'
+    compile 'com.github.CrushedPixel:PacketGate:0.1.1'
 }
 ```
 
