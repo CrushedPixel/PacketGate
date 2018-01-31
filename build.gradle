@@ -34,7 +34,10 @@ minecraft {
 }
 
 jar {
-    manifest.attributes('FMLAT': 'packetgate_at.cfg')
+    manifest.attributes(
+        'FMLAT': 'packetgate_at.cfg',
+        'ForceLoadAsMod': true
+    )
 }
 
 install {
