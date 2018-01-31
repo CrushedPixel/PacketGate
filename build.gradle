@@ -7,13 +7,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
 plugins {
     id 'org.spongepowered.plugin' version '0.8.1'
-    id 'net.minecrell.vanillagradle.server' version '2.2-5'
+    id 'net.minecrell.vanillagradle.server' version '2.2-6'
     id 'maven'
 }
 
@@ -24,12 +24,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:5.1.0'
+    compile 'org.spongepowered:spongeapi:7.0.0'
 }
 
 minecraft {
-    version = '1.10.2'
-    mappings = 'stable_29'
+    version = '1.12.2'
+    mappings = 'snapshot_20180131'
     makeObfSourceJar = false
 }
 
