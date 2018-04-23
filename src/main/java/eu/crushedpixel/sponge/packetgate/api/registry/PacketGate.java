@@ -33,10 +33,7 @@ public class PacketGate extends ListenerOwner {
     }
 
     public Optional<PacketConnection> connectionByPlayer(Player player) {
-        return connections
-                .stream()
-                .filter(connection -> player.getUniqueId().equals(connection.getPlayerUUID()))
-                .findFirst();
+        return connectionByUniqueId(player.getUniqueId());
     }
 
     public Optional<PacketConnection> connectionByUniqueId(UUID uniqueId) {
