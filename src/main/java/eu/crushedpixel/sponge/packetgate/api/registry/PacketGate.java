@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 public class PacketGate extends ListenerOwner {
 
@@ -35,6 +36,13 @@ public class PacketGate extends ListenerOwner {
         return connections
                 .stream()
                 .filter(connection -> player.getUniqueId().equals(connection.getPlayerUUID()))
+                .findFirst();
+    }
+
+    public Optional<PacketConnection> connectionByUniqueId(UUID uniqueId) {
+        return connections
+                .stream()
+                .filter(connection -> uniqueId.equals(connection.getPlayerUUID()))
                 .findFirst();
     }
 
