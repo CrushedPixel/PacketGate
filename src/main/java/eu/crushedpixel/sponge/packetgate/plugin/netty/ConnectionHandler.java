@@ -41,8 +41,6 @@ class ConnectionHandler extends ChannelDuplexHandler {
         super.channelActive(ctx);
     }
 
-    // net.minecraft.network.login.server.SPacketLoginSuccess.field_149602_a
-
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof SPacketLoginSuccess) {

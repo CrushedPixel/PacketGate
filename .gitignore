@@ -7,13 +7,7 @@
 #Gradle
 .gradletasknamecache
 .gradle/
-build/classes
-build/dependency-cache
-build/poms
-build/resources
-build/sources
-build/taskLogs
-build/tmp
+build/
 bin/
 
 .DS_Store
