@@ -1,16 +1,21 @@
 package eu.crushedpixel.sponge.packetgate.api.registry;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.BiMap;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.ListenerPriority;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
+import eu.crushedpixel.sponge.packetgate.plugin.PluginPacketGate;
 import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 import org.spongepowered.api.entity.living.player.Player;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -56,11 +61,19 @@ public class PacketGate extends ListenerOwner {
         // if no classes are specified, apply the listener to all Minecraft packet classes
         if (packetClasses.length == 0) {
             for (EnumConnectionState state : EnumConnectionState.values()) {
-                state.directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
-                    integerClassBiMap.forEach((id, clazz) -> {
-                        classes.add(clazz);
+                try {
+                    Field f = state.getClass().getDeclaredField("field_179247_h");
+                    f.setAccessible(true);
+                    Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps =
+                        (Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>>) f.get(state);
+                    directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
+                        integerClassBiMap.forEach((id, clazz) -> {
+                            classes.add(clazz);
+                        });
                     });
-                });
+                } catch (NoSuchFieldException | IllegalAccessException ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
         } else {
             // check if packet classes are valid

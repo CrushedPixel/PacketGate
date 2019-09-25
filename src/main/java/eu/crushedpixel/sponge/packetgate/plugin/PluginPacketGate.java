@@ -13,6 +13,9 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 @Plugin(id = PluginPacketGate.ID, version = PluginPacketGate.VERSION)
 public class PluginPacketGate {
 
@@ -28,9 +31,16 @@ public class PluginPacketGate {
         Sponge.getServiceManager().setProvider(this, PacketGate.class, packetGate);
 
         NetworkSystem networkSystem = ((MinecraftServer) Sponge.getServer()).getNetworkSystem();
-        for (ChannelFuture channelFuture : networkSystem.endpoints) {
-            channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
-            logger.info("Successfully injected channel initializer into endpoint");
+        try {
+            Field f = networkSystem.getClass().getDeclaredField("field_151274_e");
+            f.setAccessible(true);
+            List<ChannelFuture> endpoints = (List<ChannelFuture>) f.get(networkSystem);
+            endpoints.forEach(channelFuture -> {
+                channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
+                logger.info("Successfully injected channel initializer into endpoint");
+            });
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
