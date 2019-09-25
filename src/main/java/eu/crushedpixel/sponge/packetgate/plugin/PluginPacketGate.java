@@ -32,13 +32,13 @@ public class PluginPacketGate {
 
         NetworkSystem networkSystem = ((MinecraftServer) Sponge.getServer()).getNetworkSystem();
         try {
-        Field f = networkSystem.getClass().getDeclaredField("field_151274_e");
-        f.setAccessible(true);
-        List<ChannelFuture> endpoints = (List<ChannelFuture>) f.get(networkSystem);
-        endpoints.forEach(channelFuture -> {
-            channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
-            logger.info("Successfully injected channel initializer into endpoint");
-        });
+            Field f = networkSystem.getClass().getDeclaredField("field_151274_e");
+            f.setAccessible(true);
+            List<ChannelFuture> endpoints = (List<ChannelFuture>) f.get(networkSystem);
+            endpoints.forEach(channelFuture -> {
+                channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
+                logger.info("Successfully injected channel initializer into endpoint");
+            });
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             System.out.println(ex.getMessage());
         }

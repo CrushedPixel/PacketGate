@@ -12,7 +12,13 @@ import net.minecraft.network.Packet;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class PacketGate extends ListenerOwner {
 
@@ -56,15 +62,15 @@ public class PacketGate extends ListenerOwner {
         if (packetClasses.length == 0) {
             for (EnumConnectionState state : EnumConnectionState.values()) {
                 try {
-                Field f = state.getClass().getDeclaredField("field_179247_h");
-                f.setAccessible(true);
-                Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps =
+                    Field f = state.getClass().getDeclaredField("field_179247_h");
+                    f.setAccessible(true);
+                    Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps =
                         (Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>>) f.get(state);
-                directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
-                    integerClassBiMap.forEach((id, clazz) -> {
-                        classes.add(clazz);
+                    directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
+                        integerClassBiMap.forEach((id, clazz) -> {
+                            classes.add(clazz);
+                        });
                     });
-                });
                 } catch (NoSuchFieldException | IllegalAccessException ex) {
                     System.out.println(ex.getMessage());
                 }
