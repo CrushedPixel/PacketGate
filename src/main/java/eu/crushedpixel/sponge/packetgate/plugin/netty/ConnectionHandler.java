@@ -1,5 +1,6 @@
 package eu.crushedpixel.sponge.packetgate.plugin.netty;
 
+import com.mojang.authlib.GameProfile;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
 import io.netty.channel.ChannelDuplexHandler;
@@ -7,6 +8,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
+
+import java.lang.reflect.Field;
 
 @ChannelHandler.Sharable
 class ConnectionHandler extends ChannelDuplexHandler {
@@ -38,11 +41,16 @@ class ConnectionHandler extends ChannelDuplexHandler {
         super.channelActive(ctx);
     }
 
+    // net.minecraft.network.login.server.SPacketLoginSuccess.field_149602_a
+
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof SPacketLoginSuccess) {
             SPacketLoginSuccess packetLoginSuccess = (SPacketLoginSuccess)msg;
-            connection.setPlayerUUID(packetLoginSuccess.profile.getId());
+            Field f = packetLoginSuccess.getClass().getDeclaredField("field_149602_a");
+            f.setAccessible(true);
+            GameProfile profile = (GameProfile) f.get(packetLoginSuccess);
+            connection.setPlayerUUID(profile.getId());
         }
         super.write(ctx, msg, promise);
     }
