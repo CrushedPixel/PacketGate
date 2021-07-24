@@ -3,6 +3,7 @@ import org.spongepowered.plugin.metadata.PluginDependency
 
 
 plugins {
+    `maven-publish`
     `java-library`
     id("org.spongepowered.gradle.plugin") version "1.1.1"
     id("org.spongepowered.gradle.vanilla") version "0.2"
@@ -55,7 +56,7 @@ sponge {
     }
 }
 
-tasks.withType<Jar>  {
+tasks.withType<Jar> {
     manifest {
         attributes["MixinConfigs"] = "mixins.packetgate.json"
     }
