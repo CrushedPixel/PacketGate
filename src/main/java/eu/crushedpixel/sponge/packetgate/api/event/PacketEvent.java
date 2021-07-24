@@ -1,6 +1,7 @@
 package eu.crushedpixel.sponge.packetgate.api.event;
 
-import net.minecraft.network.Packet;
+
+import net.minecraft.network.protocol.Packet;
 
 public class PacketEvent {
 
@@ -15,7 +16,7 @@ public class PacketEvent {
 
     private final boolean outgoing;
 
-    public Packet getPacket() {
+    public Packet packet() {
         return packet;
     }
 

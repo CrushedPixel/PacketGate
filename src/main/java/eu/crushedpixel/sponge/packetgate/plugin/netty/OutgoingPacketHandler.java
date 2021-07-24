@@ -5,7 +5,7 @@ import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.network.Packet;
+import net.minecraft.network.protocol.Packet;
 
 class OutgoingPacketHandler extends ChannelOutboundHandlerAdapter {
 
@@ -18,7 +18,7 @@ class OutgoingPacketHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof Packet) {
-            PacketEvent event = new PacketEvent((Packet)msg, true);
+            PacketEvent event = new PacketEvent((Packet) msg, true);
 
             try {
                 packetConnection.handlePacketEvent(event);
@@ -27,7 +27,7 @@ class OutgoingPacketHandler extends ChannelOutboundHandlerAdapter {
             }
 
             if (event.isCancelled()) return;
-            msg = event.getPacket();
+            msg = event.packet();
         }
 
         super.write(ctx, msg, promise);

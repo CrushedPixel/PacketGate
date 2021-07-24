@@ -1,13 +1,76 @@
-# Intellij project files
+# Build #
+#########
+MANIFEST.MF
+dependency-reduced-pom.xml
+
+# Compiled #
+############
+/bin
+/build
+/dist
+/lib
+/out
+/run
+/target
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Databases #
+#############
+*.db
+*.sql
+*.sqlite
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+# Repository #
+##############
+.git
+
+# Logging #
+###########
+/logs
+*.log
+
+# Misc #
+########
+*.bak
+
+# System #
+##########
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# Project #
+###########
+.classpath
+.externalToolBuilders
+/.gradle
+.idea
+.project
+.settings
+.factorypath
+/eclipse
+nbproject
+atlassian-ide-plugin.xml
+build.xml
+nb-configuration.xml
 *.iml
 *.ipr
 *.iws
-.idea/
-
-#Gradle
-.gradletasknamecache
-.gradle/
-build/
-bin/
-
-.DS_Store
+/.apt_generated/
+*.launch
+/.nb-gradle/
