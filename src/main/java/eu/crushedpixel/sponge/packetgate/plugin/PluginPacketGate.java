@@ -28,7 +28,6 @@ public class PluginPacketGate {
     @Listener(order = Order.FIRST)
     public void init(final LoadedGameEvent event) {
         packetGate = new PacketGate();
-        Sponge.serviceProvider().provide(PacketGate.class);
 
         IMixinServerConnectionListener connection = (IMixinServerConnectionListener) ((MinecraftServer) Sponge.server()).getConnection();
 
