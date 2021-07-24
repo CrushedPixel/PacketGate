@@ -15,21 +15,17 @@ import org.spongepowered.plugin.jvm.Plugin;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Plugin(PluginPacketGate.ID)
+@Plugin("packetgate")
 public class PluginPacketGate {
-
-    static final String ID = "packetgate";
 
     @Inject
     private Logger logger;
 
-    private PacketGate packetGate;
+    public static PacketGate packetGate = new PacketGate();
 
     @Listener(order = Order.FIRST)
     public void init(final LoadedGameEvent event) {
-        packetGate = new PacketGate();
-
-        IMixinServerConnectionListener connection = (IMixinServerConnectionListener) ((MinecraftServer) Sponge.server()).getConnection();
+         IMixinServerConnectionListener connection = (IMixinServerConnectionListener) ((MinecraftServer) Sponge.server()).getConnection();
 
         List<ChannelFuture> channels = connection.getChannels();
         channels.forEach(channelFuture -> {
