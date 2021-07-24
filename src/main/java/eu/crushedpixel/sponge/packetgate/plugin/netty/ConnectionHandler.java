@@ -2,7 +2,7 @@ package eu.crushedpixel.sponge.packetgate.plugin.netty;
 
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
-import eu.crushedpixel.sponge.packetgate.plugin.interfaces.IMixingClientboundGameProfilePacket;
+import eu.crushedpixel.sponge.packetgate.plugin.interfaces.IMixinClientboundGameProfilePacket;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -42,7 +42,7 @@ class ConnectionHandler extends ChannelDuplexHandler {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof ClientboundGameProfilePacket packetLoginSuccess) {
-            IMixingClientboundGameProfilePacket packet = (IMixingClientboundGameProfilePacket) packetLoginSuccess;
+            IMixinClientboundGameProfilePacket packet = (IMixinClientboundGameProfilePacket) packetLoginSuccess;
             connection.setPlayerUniqueId(packet.uniqueId());
         }
         super.write(ctx, msg, promise);
