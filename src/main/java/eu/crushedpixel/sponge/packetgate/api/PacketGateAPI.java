@@ -10,7 +10,7 @@ public class PacketGateAPI {
      *
      * @return PacketGate instance to use
      */
-    public PacketGate get() {
+    public static PacketGate get() {
         return PluginPacketGate.packetGate;
     }
 
