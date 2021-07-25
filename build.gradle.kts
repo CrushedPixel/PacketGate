@@ -12,7 +12,7 @@ plugins {
 group = "eu.crushedpixel.sponge"
 version = "0.2.0"
 
-val javaTarget = 16
+val javaTarget = 11
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaTarget)
