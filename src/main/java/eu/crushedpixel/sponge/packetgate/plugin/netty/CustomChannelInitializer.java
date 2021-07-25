@@ -6,7 +6,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class CustomChannelInitializer extends ChannelInboundHandlerAdapter {
 

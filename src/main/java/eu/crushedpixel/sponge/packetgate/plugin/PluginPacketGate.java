@@ -11,9 +11,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.lifecycle.LoadedGameEvent;
 import org.spongepowered.plugin.jvm.Plugin;
-
+import org.apache.logging.log4j.Logger;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Plugin("packetgate")
 public class PluginPacketGate {

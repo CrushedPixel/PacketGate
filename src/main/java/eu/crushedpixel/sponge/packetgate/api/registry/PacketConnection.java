@@ -5,10 +5,10 @@ import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
 import io.netty.channel.Channel;
 import net.minecraft.network.protocol.Packet;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class PacketConnection extends ListenerOwner {
 
