@@ -2,16 +2,17 @@ package eu.crushedpixel.sponge.packetgate.plugin;
 
 import com.google.inject.Inject;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
-import eu.crushedpixel.sponge.packetgate.plugin.interfaces.IMixinServerConnectionListener;
+import eu.crushedpixel.sponge.packetgate.plugin.mixin.ConnectionListenerAccessor;
 import eu.crushedpixel.sponge.packetgate.plugin.netty.CustomChannelInitializer;
 import io.netty.channel.ChannelFuture;
 import net.minecraft.server.MinecraftServer;
+import org.apache.logging.log4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.lifecycle.LoadedGameEvent;
 import org.spongepowered.plugin.jvm.Plugin;
-import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 
 @Plugin("packetgate")
@@ -24,9 +25,8 @@ public class PluginPacketGate {
 
     @Listener(order = Order.FIRST)
     public void init(final LoadedGameEvent event) {
-         IMixinServerConnectionListener connection = (IMixinServerConnectionListener) ((MinecraftServer) Sponge.server()).getConnection();
-
-        List<ChannelFuture> channels = connection.getChannels();
+        ConnectionListenerAccessor connection = (ConnectionListenerAccessor) ((MinecraftServer) Sponge.server()).getConnection();
+        List<ChannelFuture> channels = connection.accessor$channels();
         channels.forEach(channelFuture -> {
             channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
             logger.info("Successfully injected channel initializer into endpoint");

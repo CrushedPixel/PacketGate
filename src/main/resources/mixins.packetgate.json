@@ -6,13 +6,13 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_11",
   "server": [
-    "MixinConnectionProtocol",
-    "MixinServerConnectionListener"
+    "ConnectionListenerAccessor",
+    "ConnectionProtocolFlowAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "MixinClientboundGameProfilePacket"
+    "ClientboundGameProfilePacketAccessor"
   ]
 }

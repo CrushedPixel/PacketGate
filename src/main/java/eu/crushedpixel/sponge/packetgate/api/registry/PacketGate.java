@@ -5,7 +5,7 @@ import com.google.common.collect.BiMap;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.ListenerPriority;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
-import eu.crushedpixel.sponge.packetgate.plugin.interfaces.IMixinConnectionProtocol;
+import eu.crushedpixel.sponge.packetgate.plugin.mixin.ConnectionProtocolFlowAccessor;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
@@ -53,9 +53,9 @@ public class PacketGate extends ListenerOwner {
 
         // if no classes are specified, apply the listener to all Minecraft packet classes
         if (packetClasses.length == 0) {
-            IMixinConnectionProtocol[] list = (IMixinConnectionProtocol[]) (Object) ConnectionProtocol.values();
-            for (IMixinConnectionProtocol state : list) {
-                Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps = (Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>>) state.getFlows();
+            ConnectionProtocolFlowAccessor[] list = (ConnectionProtocolFlowAccessor[]) (Object) ConnectionProtocol.values();
+            for (ConnectionProtocolFlowAccessor state : list) {
+                Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps = (Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>>) state.accessor$flows();
                 directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
                     integerClassBiMap.forEach((id, clazz) -> {
                         classes.add(clazz);
