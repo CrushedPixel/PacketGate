@@ -1,19 +1,21 @@
 package eu.crushedpixel.sponge.packetgate.plugin;
 
-import com.google.inject.Inject;
-import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
-import eu.crushedpixel.sponge.packetgate.plugin.mixin.ConnectionListenerAccessor;
-import eu.crushedpixel.sponge.packetgate.plugin.netty.CustomChannelInitializer;
-import io.netty.channel.ChannelFuture;
-import net.minecraft.server.MinecraftServer;
+import java.util.List;
+
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.lifecycle.LoadedGameEvent;
-import org.spongepowered.plugin.jvm.Plugin;
+import org.spongepowered.plugin.builtin.jvm.Plugin;
 
-import java.util.List;
+import com.google.inject.Inject;
+
+import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
+import eu.crushedpixel.sponge.packetgate.plugin.mixin.ConnectionListenerAccessor;
+import eu.crushedpixel.sponge.packetgate.plugin.netty.CustomChannelInitializer;
+import io.netty.channel.ChannelFuture;
+import net.minecraft.server.MinecraftServer;
 
 @Plugin("packetgate")
 public class PluginPacketGate {

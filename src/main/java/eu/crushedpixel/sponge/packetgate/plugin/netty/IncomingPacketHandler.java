@@ -17,7 +17,7 @@ class IncomingPacketHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof Packet) {
-            PacketEvent event = new PacketEvent((Packet) msg, false);
+            PacketEvent event = new PacketEvent((Packet<?>) msg, false);
 
             try {
                 packetConnection.handlePacketEvent(event);

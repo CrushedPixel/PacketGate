@@ -5,22 +5,22 @@ import net.minecraft.network.protocol.Packet;
 
 public class PacketEvent {
 
-    public PacketEvent(Packet packet, boolean outgoing) {
+    public PacketEvent(Packet<?> packet, boolean outgoing) {
         this.packet = packet;
         this.outgoing = outgoing;
     }
 
-    private Packet packet;
+    private Packet<?> packet;
 
     private boolean cancelled = false;
 
     private final boolean outgoing;
 
-    public Packet packet() {
+    public Packet<?> packet() {
         return packet;
     }
 
-    public void setPacket(Packet packet) {
+    public void setPacket(Packet<?> packet) {
         this.packet = packet;
     }
 
