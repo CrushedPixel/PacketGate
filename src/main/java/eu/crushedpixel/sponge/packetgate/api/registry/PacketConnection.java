@@ -23,7 +23,7 @@ public class PacketConnection extends ListenerOwner {
         this.channel = channel;
     }
 
-    public void sendPacket(Packet packet) {
+    public void sendPacket(Packet<?> packet) {
         channel.write(packet);
     }
 
@@ -53,4 +53,8 @@ public class PacketConnection extends ListenerOwner {
     public void setPlayerUniqueId(UUID playerUUID) {
         this.playerUniqueId = playerUUID;
     }
+    
+    public Logger getLogger() {
+		return logger;
+	}
 }

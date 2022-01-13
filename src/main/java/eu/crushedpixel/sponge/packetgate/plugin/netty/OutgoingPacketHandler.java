@@ -18,7 +18,7 @@ class OutgoingPacketHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof Packet) {
-            PacketEvent event = new PacketEvent((Packet) msg, true);
+            PacketEvent event = new PacketEvent((Packet<?>) msg, true);
 
             try {
                 packetConnection.handlePacketEvent(event);
