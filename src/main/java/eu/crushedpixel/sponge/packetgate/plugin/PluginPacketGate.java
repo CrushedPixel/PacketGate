@@ -23,8 +23,17 @@ public class PluginPacketGate {
     @Inject
     private Logger logger;
 
+    private static PluginPacketGate instance;
     public static PacketGate packetGate = new PacketGate();
 
+    public static Logger getLogger() {
+    	return instance.logger;
+    }
+    
+    public PluginPacketGate() {
+    	instance = this;
+    }
+    
     @Listener(order = Order.FIRST)
     public void init(final LoadedGameEvent event) {
         ConnectionListenerAccessor connection = (ConnectionListenerAccessor) ((MinecraftServer) Sponge.server()).getConnection();

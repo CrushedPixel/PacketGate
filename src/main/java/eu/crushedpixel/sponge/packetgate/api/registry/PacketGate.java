@@ -1,17 +1,24 @@
 package eu.crushedpixel.sponge.packetgate.api.registry;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import org.spongepowered.api.entity.living.player.Player;
+
 import com.google.common.base.Preconditions;
-import com.google.common.collect.BiMap;
+
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.ListenerPriority;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
 import eu.crushedpixel.sponge.packetgate.plugin.mixin.ConnectionProtocolFlowAccessor;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.PacketFlow;
-import org.spongepowered.api.entity.living.player.Player;
-
-import java.util.*;
 
 public class PacketGate extends ListenerOwner {
 
@@ -46,7 +53,7 @@ public class PacketGate extends ListenerOwner {
         registerListener(packetListener, priority, null, packetClasses);
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public void registerListener(PacketListener packetListener, ListenerPriority priority,
                                  PacketConnection connection,
                                  Class<?>... packetClasses) {
@@ -56,11 +63,16 @@ public class PacketGate extends ListenerOwner {
         if (packetClasses.length == 0) {
             ConnectionProtocolFlowAccessor[] list = (ConnectionProtocolFlowAccessor[]) (Object) ConnectionProtocol.values();
             for (ConnectionProtocolFlowAccessor state : list) {
-                Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps = (Map<PacketFlow, BiMap<Integer, Class<? extends Packet<?>>>>) state.accessor$flows();
-                directionMaps.forEach((enumPacketDirection, integerClassBiMap) -> {
-                    integerClassBiMap.forEach((id, clazz) -> {
-                        classes.add(clazz);
-                    });
+            	state.accessor$flows().forEach((enumPacketDirection, val) -> {
+            		try {
+            			Field classIdField = val.getClass().getDeclaredField("classToId");
+            			classIdField.setAccessible(true);
+	            		((Object2IntMap<Class<?>>) classIdField.get(val)).forEach((clazz, id) -> {
+	                        classes.add(clazz);
+	                    });
+            		} catch(Exception e) {
+            			e.printStackTrace();
+            		}
                 });
             }
         } else {
