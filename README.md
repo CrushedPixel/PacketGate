@@ -28,16 +28,9 @@ dependencies {
 The `PacketGate` library provides a `PacketGate` class that acts as the registry for 
 `PacketListener`s and provides `PacketConnection`s for all online players.
 
-You can get an instance of PacketGate using Sponge's `ServiceManager`:
+You can get an instance of PacketGate using `PacketGateAPI`:
 ```java
-Optional<PacketGate> optional = Sponge.getServiceManager().provide(PacketGate.class);
-if (optional.isPresent()) {
-    PacketGate packetGate = optional.get();
-    // use PacketGate
-} else {
-    // the PacketGate plugin is not installed on the server
-}
-
+PacketGate packetGate = PacketGateAPI.get();
 ```
 ### Writing a PacketListener
 The `PacketListener` interface exposes two methods: `onPacketWrite` and `onPacketRead` which 
@@ -54,15 +47,15 @@ public class SwearWordListener extends PacketListenerAdapter {
     
     @Override
     public void onPacketRead(PacketEvent event, PacketConnection connection) {
-        if (!(event.getPacket() instanceof CPacketChatMessage)) return;
-        CPacketChatMessage packet = (CPacketChatMessage)event.getPacket();
+        if (!(event.packet() instanceof ServerboundChatPacket)) return;
+        ServerboundChatPacket packet = (ServerboundChatPacket) event.packet();
         
         if (packet.getMessage().contains("shit") || packet.getMessage().contains("damn")) {
             // cancel the event so the server will act like the client never sent it
             event.setCancelled(true);
             
             // get a Sponge player from the PacketConnection
-            Player player = Sponge.getServer().getPlayer(connection.getPlayerUUID());
+            Player player = Sponge.getServer().getPlayer(connection.playerUniqueId());
             
             // send the player some warning words
             player.sendMessage(Text.of("Please don't swear!"));
@@ -74,7 +67,7 @@ public class SwearWordListener extends PacketListenerAdapter {
 You can also modify the packet instead of cancelling it, for example:
 ```java
 String censored = packet.getMessage().replaceAll("shit|damn", "****");
-event.setPacket(new CPacketChatMessage(censored));
+event.setPacket(new ServerboundChatPacket(censored));
 ```
 
 ### Registering a PacketListener
@@ -84,10 +77,9 @@ the listener should listen to:
 ```java
 packetGate.registerListener(
     new ExampleListener(), 
-    ListenerPriority.DEFAULT, 
-    CPacketChatMessage.class, 
-    SPacketChat.class);
-
+    ListenerPriority.DEFAULT,
+    ServerboundChatPacket.class
+);
 ```
 
 A `PacketListener` can be registered globally or for a certain `PacketConnection` only.
@@ -95,14 +87,13 @@ To retrieve the `PacketConnection` instance for a certain player, use `PacketGat
 
 ```java
 public void registerSwearWordListener(Player player) {
-    Sponge.getServiceManager().provide(PacketGate.class).ifPresent(packetGate -> {
-        PacketConnection connection = packetGate.connectionByPlayer(player).get();
-        packetGate.registerListener(
-            new SwearWordListener(),
-            ListenerPriority.DEFAULT, 
-            connection,
-            CPacketChatMessage.class);
-    }
+    PacketGate packetGate = PacketGateAPI.get();
+    PacketConnection connection = packetGate.connectionByPlayer(player).get();
+    packetGate.registerListener(
+        new SwearWordListener(),
+        ListenerPriority.DEFAULT, 
+        connection,
+        CPacketChatMessage.class);
 }
 ```
 

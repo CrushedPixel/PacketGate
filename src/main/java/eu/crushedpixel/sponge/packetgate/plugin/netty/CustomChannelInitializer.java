@@ -5,7 +5,8 @@ import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.slf4j.Logger;
+
+import org.apache.logging.log4j.Logger;
 
 public class CustomChannelInitializer extends ChannelInboundHandlerAdapter {
 

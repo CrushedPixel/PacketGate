@@ -4,8 +4,8 @@ import eu.crushedpixel.sponge.packetgate.api.event.PacketEvent;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener;
 import eu.crushedpixel.sponge.packetgate.api.listener.PacketListener.PacketListenerData;
 import io.netty.channel.Channel;
-import net.minecraft.network.Packet;
-import org.slf4j.Logger;
+import net.minecraft.network.protocol.Packet;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,19 +16,19 @@ public class PacketConnection extends ListenerOwner {
 
     private final Channel channel;
 
-    private UUID playerUUID;
+    private UUID playerUniqueId;
 
     public PacketConnection(Logger logger, Channel channel) {
         this.logger = logger;
         this.channel = channel;
     }
 
-    public void sendPacket(Packet packet) {
+    public void sendPacket(Packet<?> packet) {
         channel.write(packet);
     }
 
     public void handlePacketEvent(PacketEvent event) {
-        List<PacketListenerData> list = packetListeners.get(event.getPacket().getClass());
+        List<PacketListenerData> list = packetListeners.get(event.packet().getClass());
         if (list == null) return;
 
         for (PacketListenerData data : list) {
@@ -42,15 +42,19 @@ public class PacketConnection extends ListenerOwner {
         }
     }
 
-    public Channel getChannel() {
+    public Channel channel() {
         return channel;
     }
 
-    public UUID getPlayerUUID() {
-        return playerUUID;
+    public UUID playerUniqueId() {
+        return playerUniqueId;
     }
 
-    public void setPlayerUUID(UUID playerUUID) {
-        this.playerUUID = playerUUID;
+    public void setPlayerUniqueId(UUID playerUUID) {
+        this.playerUniqueId = playerUUID;
     }
+    
+    public Logger getLogger() {
+		return logger;
+	}
 }

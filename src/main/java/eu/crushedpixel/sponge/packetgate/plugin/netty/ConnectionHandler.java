@@ -1,15 +1,13 @@
 package eu.crushedpixel.sponge.packetgate.plugin.netty;
 
-import com.mojang.authlib.GameProfile;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketGate;
+import eu.crushedpixel.sponge.packetgate.plugin.mixin.ClientboundGameProfilePacketAccessor;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.network.login.server.SPacketLoginSuccess;
-
-import java.lang.reflect.Field;
+import net.minecraft.network.protocol.login.ClientboundGameProfilePacket;
 
 @ChannelHandler.Sharable
 class ConnectionHandler extends ChannelDuplexHandler {
@@ -43,12 +41,9 @@ class ConnectionHandler extends ChannelDuplexHandler {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        if (msg instanceof SPacketLoginSuccess) {
-            SPacketLoginSuccess packetLoginSuccess = (SPacketLoginSuccess)msg;
-            Field f = packetLoginSuccess.getClass().getDeclaredField("field_149602_a");
-            f.setAccessible(true);
-            GameProfile profile = (GameProfile) f.get(packetLoginSuccess);
-            connection.setPlayerUUID(profile.getId());
+        if (msg instanceof ClientboundGameProfilePacket) {
+            ClientboundGameProfilePacketAccessor packet = (ClientboundGameProfilePacketAccessor) msg;
+            connection.setPlayerUniqueId(packet.accessor$gameProfile().getId());
         }
         super.write(ctx, msg, promise);
     }

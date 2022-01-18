@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8.3",
+  "package": "eu.crushedpixel.sponge.packetgate.plugin.mixin",
+  "refmap": "mixins.packetgate.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_11",
+  "server": [
+    "ConnectionListenerAccessor",
+    "ConnectionProtocolFlowAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "ClientboundGameProfilePacketAccessor"
+  ]
+}

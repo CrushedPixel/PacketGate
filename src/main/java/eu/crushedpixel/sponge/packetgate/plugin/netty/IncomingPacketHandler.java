@@ -4,7 +4,7 @@ import eu.crushedpixel.sponge.packetgate.api.event.PacketEvent;
 import eu.crushedpixel.sponge.packetgate.api.registry.PacketConnection;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.minecraft.network.Packet;
+import net.minecraft.network.protocol.Packet;
 
 class IncomingPacketHandler extends ChannelInboundHandlerAdapter {
 
@@ -17,7 +17,7 @@ class IncomingPacketHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof Packet) {
-            PacketEvent event = new PacketEvent((Packet)msg, false);
+            PacketEvent event = new PacketEvent((Packet<?>) msg, false);
 
             try {
                 packetConnection.handlePacketEvent(event);
@@ -26,7 +26,7 @@ class IncomingPacketHandler extends ChannelInboundHandlerAdapter {
             }
 
             if (event.isCancelled()) return;
-            msg = event.getPacket();
+            msg = event.packet();
         }
 
         super.channelRead(ctx, msg);
